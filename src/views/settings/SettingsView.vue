@@ -227,6 +227,11 @@ const showAboutModal = ref(false)
 const editingSocial = ref(null)
 const editingFaq = ref(null)
 
+// Language Tab States for Modals
+const privacyLangTab = ref('en')
+const termsLangTab = ref('en')
+const aboutLangTab = ref('en')
+
 // Form State
 const socialForm = ref({
   nameEn: '',
@@ -303,6 +308,7 @@ const closeSocialModal = () => {
 }
 
 const openPrivacyModal = () => {
+  privacyLangTab.value = 'en'
   showPrivacyModal.value = true
 }
 
@@ -312,6 +318,7 @@ const savePrivacyPolicy = () => {
 }
 
 const openTermsModal = () => {
+  termsLangTab.value = 'en'
   showTermsModal.value = true
 }
 
@@ -370,6 +377,7 @@ const closeFaqModal = () => {
 
 // About WFG Methods
 const openAboutModal = () => {
+  aboutLangTab.value = 'en'
   showAboutModal.value = true
 }
 
@@ -504,7 +512,7 @@ const saveAboutWfg = () => {
         <div class="policy-preview">
           <h3>{{ t('settings.privacyPolicyContent') }}</h3>
           <div class="policy-text">
-            {{ privacyPolicy.content.substring(0, 300) }}...
+            {{ (privacyPolicy.contentEn || '').substring(0, 300) }}...
           </div>
         </div>
       </div>
@@ -529,7 +537,7 @@ const saveAboutWfg = () => {
         <div class="terms-preview">
           <h3>{{ t('settings.termsContent') }}</h3>
           <div class="terms-text">
-            {{ termsAndConditions.content.substring(0, 300) }}...
+            {{ (termsAndConditions.contentEn || '').substring(0, 300) }}...
           </div>
         </div>
       </div>
@@ -618,7 +626,7 @@ const saveAboutWfg = () => {
         <div class="about-preview">
           <h3>{{ t('settings.aboutContent') }}</h3>
           <div class="about-text">
-            {{ aboutWfg.content.substring(0, 300) }}...
+            {{ (aboutWfg.contentEn || '').substring(0, 300) }}...
           </div>
         </div>
       </div>
@@ -677,12 +685,41 @@ const saveAboutWfg = () => {
         </div>
         
         <div class="modal-body">
-          <textarea 
-            v-model="privacyPolicy.content"
-            class="content-editor"
-            rows="20"
-            :placeholder="t('settings.privacyPolicyContent')"
-          />
+          <div class="language-tabs">
+            <button 
+              @click="privacyLangTab = 'en'" 
+              :class="['lang-tab', { active: privacyLangTab === 'en' }]"
+            >
+              English
+            </button>
+            <button 
+              @click="privacyLangTab = 'ar'" 
+              :class="['lang-tab', { active: privacyLangTab === 'ar' }]"
+            >
+              العربية
+            </button>
+          </div>
+          
+          <div v-show="privacyLangTab === 'en'" class="tab-content">
+            <label class="content-label">Privacy Policy (English)</label>
+            <textarea 
+              v-model="privacyPolicy.contentEn"
+              class="content-editor"
+              rows="20"
+              placeholder="Enter privacy policy in English..."
+            />
+          </div>
+          
+          <div v-show="privacyLangTab === 'ar'" class="tab-content">
+            <label class="content-label">سياسة الخصوصية (عربي)</label>
+            <textarea 
+              v-model="privacyPolicy.contentAr"
+              class="content-editor"
+              rows="20"
+              placeholder="أدخل سياسة الخصوصية بالعربية..."
+              dir="rtl"
+            />
+          </div>
         </div>
 
         <div class="modal-actions">
@@ -708,12 +745,41 @@ const saveAboutWfg = () => {
         </div>
         
         <div class="modal-body">
-          <textarea 
-            v-model="termsAndConditions.content"
-            class="content-editor"
-            rows="20"
-            :placeholder="t('settings.termsContent')"
-          />
+          <div class="language-tabs">
+            <button 
+              @click="termsLangTab = 'en'" 
+              :class="['lang-tab', { active: termsLangTab === 'en' }]"
+            >
+              English
+            </button>
+            <button 
+              @click="termsLangTab = 'ar'" 
+              :class="['lang-tab', { active: termsLangTab === 'ar' }]"
+            >
+              العربية
+            </button>
+          </div>
+          
+          <div v-show="termsLangTab === 'en'" class="tab-content">
+            <label class="content-label">Terms and Conditions (English)</label>
+            <textarea 
+              v-model="termsAndConditions.contentEn"
+              class="content-editor"
+              rows="20"
+              placeholder="Enter terms and conditions in English..."
+            />
+          </div>
+          
+          <div v-show="termsLangTab === 'ar'" class="tab-content">
+            <label class="content-label">الشروط والأحكام (عربي)</label>
+            <textarea 
+              v-model="termsAndConditions.contentAr"
+              class="content-editor"
+              rows="20"
+              placeholder="أدخل الشروط والأحكام بالعربية..."
+              dir="rtl"
+            />
+          </div>
         </div>
 
         <div class="modal-actions">
@@ -780,12 +846,41 @@ const saveAboutWfg = () => {
         </div>
         
         <div class="modal-body">
-          <textarea 
-            v-model="aboutWfg.content"
-            class="content-editor"
-            rows="20"
-            :placeholder="t('settings.aboutContent')"
-          />
+          <div class="language-tabs">
+            <button 
+              @click="aboutLangTab = 'en'" 
+              :class="['lang-tab', { active: aboutLangTab === 'en' }]"
+            >
+              English
+            </button>
+            <button 
+              @click="aboutLangTab = 'ar'" 
+              :class="['lang-tab', { active: aboutLangTab === 'ar' }]"
+            >
+              العربية
+            </button>
+          </div>
+          
+          <div v-show="aboutLangTab === 'en'" class="tab-content">
+            <label class="content-label">About WFG (English)</label>
+            <textarea 
+              v-model="aboutWfg.contentEn"
+              class="content-editor"
+              rows="20"
+              placeholder="Enter about WFG content in English..."
+            />
+          </div>
+          
+          <div v-show="aboutLangTab === 'ar'" class="tab-content">
+            <label class="content-label">عن WFG (عربي)</label>
+            <textarea 
+              v-model="aboutWfg.contentAr"
+              class="content-editor"
+              rows="20"
+              placeholder="أدخل معلومات عن WFG بالعربية..."
+              dir="rtl"
+            />
+          </div>
         </div>
 
         <div class="modal-actions">
@@ -1191,6 +1286,50 @@ const saveAboutWfg = () => {
   gap: 1rem;
   padding: 1.5rem;
   border-top: 1px solid var(--color-border);
+}
+
+/* Language Tabs */
+.language-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--color-border);
+}
+
+.lang-tab {
+  padding: 0.75rem 1.5rem;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text-medium);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.lang-tab:hover {
+  color: var(--color-primary);
+  background: rgba(59, 130, 246, 0.05);
+}
+
+.lang-tab.active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+  font-weight: 600;
+}
+
+.tab-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.content-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-dark);
 }
 
 /* Responsive Design */
