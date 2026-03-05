@@ -1,0 +1,10 @@
+/* Fix for Leaflet marker icons */
+.leaflet-default-icon-path {
+  background-image: url('https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png');
+}
+
+/* Ensure Leaflet controls are visible */
+.leaflet-control-zoom a,
+.leaflet-control-attribution {
+  color: #333;
+}

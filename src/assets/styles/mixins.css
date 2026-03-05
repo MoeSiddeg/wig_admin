@@ -1,0 +1,15 @@
+:root {
+  --transition-base: 200ms ease;
+}
+
+@layer components {
+  .card-shadow {
+    box-shadow: var(--shadow-sm);
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+  }
+
+  .card-shadow:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+}
